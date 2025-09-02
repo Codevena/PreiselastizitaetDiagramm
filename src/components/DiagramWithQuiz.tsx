@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot } from 'recharts'
 import { TrendingUp, Target, CheckCircle, XCircle, RotateCcw, Eye, EyeOff, Info, DollarSign, BookOpen } from 'lucide-react'
@@ -46,14 +46,14 @@ const questions = [
   },
   {
     id: 'f',
-    question: 'Bei welchem Preis kommt es zur Bildung sogenannter "Schwarzer Märkte"?',
+    question: 'Bei welchem Preis kommt es zur Bildung sogenannter &quot;Schwarzer Märkte&quot;?',
     options: ['P1 (hoher Preis)', 'P2 (mittlerer Preis)', 'P3 (niedriger Preis)'],
     correct: 2,
     explanation: 'Schwarze Märkte entstehen bei Höchstpreisen (P3). Die hohe Nachfrage kann nicht legal befriedigt werden, daher entstehen illegale Märkte.'
   },
   {
     id: 'g',
-    question: 'Bei welchem Preis kommt es zur Bildung sogenannter "Grauer Märkte"?',
+    question: 'Bei welchem Preis kommt es zur Bildung sogenannter &quot;Grauer Märkte&quot;?',
     options: ['P1 (hoher Preis)', 'P2 (mittlerer Preis)', 'P3 (niedriger Preis)'],
     correct: 0,
     explanation: 'Graue Märkte entstehen bei Mindestpreisen (P1). Produzenten haben Überschüsse und versuchen diese in anderen Märkten zu verkaufen.'
@@ -135,7 +135,7 @@ export default function DiagramWithQuiz() {
 
 
 
-  const calculateScore = () => {
+  const calculateScore = useCallback(() => {
     let correct = 0
     questions.forEach(question => {
       if (selectedAnswers[question.id] === question.correct) {
@@ -143,7 +143,7 @@ export default function DiagramWithQuiz() {
       }
     })
     return correct
-  }
+  }, [selectedAnswers])
 
   // Confetti animation for perfect score
   const triggerConfetti = () => {
@@ -163,7 +163,7 @@ export default function DiagramWithQuiz() {
         setTimeout(triggerConfetti, 500)
       }
     }
-  }, [showAnswers, selectedAnswers])
+  }, [showAnswers, selectedAnswers, calculateScore])
 
   return (
     <section className="mb-16">
@@ -431,7 +431,7 @@ export default function DiagramWithQuiz() {
                 <li>• Wenige Kunden kaufen (niedrige Nachfrage)</li>
                 <li>• Viele Verkäufer bieten an (hohes Angebot)</li>
                 <li>• Ergebnis: <strong className="text-red-400">Angebotsüberschuss</strong></li>
-                <li>• Kann zu "Grauen Märkten" führen</li>
+                <li>• Kann zu &quot;Grauen Märkten&quot; führen</li>
               </ul>
             </div>
             <div>
@@ -440,7 +440,7 @@ export default function DiagramWithQuiz() {
                 <li>• Viele Kunden wollen kaufen (hohe Nachfrage)</li>
                 <li>• Wenige Verkäufer bieten an (niedriges Angebot)</li>
                 <li>• Ergebnis: <strong className="text-blue-400">Nachfrageüberschuss</strong></li>
-                <li>• Kann zu "Schwarzen Märkten" führen</li>
+                <li>• Kann zu &quot;Schwarzen Märkten&quot; führen</li>
               </ul>
             </div>
           </div>

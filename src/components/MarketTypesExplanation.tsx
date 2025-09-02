@@ -54,7 +54,7 @@ export default function MarketTypesExplanation() {
                     <h5 className="font-medium text-red-300 mb-1">🏠 Mietpreisbremse</h5>
                     <p className="text-xs text-gray-300">
                       Staat begrenzt Mieten auf 800€. Nachfrage ist hoch, aber wenige Vermieter bieten an. 
-                      Schwarzmarkt: Illegale "Zusatzgebühren" oder Untervermietung zu höheren Preisen.
+                      Schwarzmarkt: Illegale &quot;Zusatzgebühren&quot; oder Untervermietung zu höheren Preisen.
                     </p>
                   </div>
                   
@@ -122,7 +122,7 @@ export default function MarketTypesExplanation() {
                     <h5 className="font-medium text-gray-300 mb-1">💰 Mindestlohn</h5>
                     <p className="text-xs text-gray-300">
                       Mindestlohn 12€/Stunde. Viele wollen arbeiten, aber wenige Jobs. 
-                      Grauer Markt: Schwarzarbeit, Praktika, "Selbstständigkeit" unter Mindestlohn.
+                      Grauer Markt: Schwarzarbeit, Praktika, &quot;Selbstständigkeit&quot; unter Mindestlohn.
                     </p>
                   </div>
                   

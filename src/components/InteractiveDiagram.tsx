@@ -7,6 +7,8 @@ import { TrendingUp, Sliders, Info, Play, Pause, RotateCcw, Zap, Target, AlertTr
 
 export default function InteractiveDiagram() {
   const [selectedPrice, setSelectedPrice] = useState(50)
+  const [demandElasticity, setDemandElasticity] = useState(1)
+  const [supplyElasticity, setSupplyElasticity] = useState(1)
 
   const [showExplanation, setShowExplanation] = useState(false)
   const [animationMode, setAnimationMode] = useState(false)

@@ -16,7 +16,7 @@ export default function SimpleExplanation() {
           <div className="w-12 h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
             <Lightbulb className="w-6 h-6 text-blue-400" />
           </div>
-          <h2 className="text-3xl font-bold text-white">So einfach funktioniert's!</h2>
+          <h2 className="text-3xl font-bold text-white">So einfach funktioniert&apos;s!</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -74,7 +74,7 @@ export default function SimpleExplanation() {
               <p>• Klicke auf P1, P2 oder P3 im Diagramm</p>
               <p>• Schaue dir die Werte an</p>
               <p>• Beantworte die Fragen rechts</p>
-              <p>• Klicke "Antworten anzeigen" für Hilfe</p>
+              <p>• Klicke &quot;Antworten anzeigen&quot; für Hilfe</p>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@ export default function SimpleExplanation() {
                 <li>• Wenige Kunden kaufen (niedrige Nachfrage)</li>
                 <li>• Viele Verkäufer bieten an (hohes Angebot)</li>
                 <li>• Ergebnis: <strong className="text-red-400">Angebotsüberschuss</strong></li>
-                <li>• Kann zu "Grauen Märkten" führen</li>
+                <li>• Kann zu &quot;Grauen Märkten&quot; führen</li>
               </ul>
             </div>
             <div>
@@ -101,7 +101,7 @@ export default function SimpleExplanation() {
                 <li>• Viele Kunden wollen kaufen (hohe Nachfrage)</li>
                 <li>• Wenige Verkäufer bieten an (niedriges Angebot)</li>
                 <li>• Ergebnis: <strong className="text-blue-400">Nachfrageüberschuss</strong></li>
-                <li>• Kann zu "Schwarzen Märkten" führen</li>
+                <li>• Kann zu &quot;Schwarzen Märkten&quot; führen</li>
               </ul>
             </div>
           </div>
