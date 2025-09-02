@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot, Area, AreaChart } from 'recharts'
-import { TrendingUp, Sliders, Info, Play, Pause, RotateCcw, Zap, Target, AlertTriangle } from 'lucide-react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, ReferenceArea, ReferenceDot, Customized } from 'recharts'
+import { TrendingUp, Sliders, Info, Play, Pause, RotateCcw, Zap, AlertTriangle } from 'lucide-react'
 
 export default function InteractiveDiagram() {
   const [selectedPrice, setSelectedPrice] = useState(50)
@@ -12,8 +12,6 @@ export default function InteractiveDiagram() {
 
   const [showExplanation, setShowExplanation] = useState(false)
   const [animationMode, setAnimationMode] = useState(false)
-  const [selectedPoint, setSelectedPoint] = useState<'P1' | 'P2' | 'P3' | null>(null)
-  const [showSurplus, setShowSurplus] = useState(true)
 
   // Animation effect
   useEffect(() => {
@@ -28,14 +26,14 @@ export default function InteractiveDiagram() {
     }
   }, [animationMode])
 
-  // Generate supply and demand data - EXACTLY like in the original image
+  // Generate supply and demand data using elasticities
   const generateData = () => {
     const data = []
     for (let quantity = 0; quantity <= 100; quantity += 1) {
-      // Demand curve: Simple linear downward slope P = 100 - Q (like in the image)
-      const demandPrice = Math.max(0, 100 - quantity)
-      // Supply curve: Simple linear upward slope P = Q (like in the image)
-      const supplyPrice = quantity
+      // Demand curve: P(Q) = 100 - dE * Q
+      const demandPrice = Math.max(0, 100 - demandElasticity * quantity)
+      // Supply curve: P(Q) = sE * Q
+      const supplyPrice = Math.min(100, supplyElasticity * quantity)
 
       data.push({
         quantity,
@@ -48,29 +46,28 @@ export default function InteractiveDiagram() {
 
   const data = generateData()
 
-  // Fixed equilibrium point - exactly like in the image (where lines cross)
-  const equilibrium = { quantity: 50, price: 50 }
+  // Dynamic equilibrium from elasticities
+  // Solve 100 - dE*Q = sE*Q => Q* = 100/(dE + sE), P* = sE*Q*
+  const equilibrium = {
+    quantity: 100 / (demandElasticity + supplyElasticity),
+    price: (100 * supplyElasticity) / (demandElasticity + supplyElasticity)
+  }
 
-  // Calculate quantities at selected price - simple linear functions like in the image
+  // Quantities at selected price (inverse functions)
   const getQuantityDemanded = (price: number) => {
-    // Simple demand: Q = 100 - P
-    return Math.max(0, 100 - price)
+    // QD(P) = (100 - P)/dE
+    return Math.max(0, Math.min(100, (100 - price) / demandElasticity))
   }
 
   const getQuantitySupplied = (price: number) => {
-    // Simple supply: Q = P
-    return Math.max(0, price)
+    // QS(P) = P/sE
+    return Math.max(0, Math.min(100, price / supplyElasticity))
   }
 
   const quantityDemanded = getQuantityDemanded(selectedPrice)
   const quantitySupplied = getQuantitySupplied(selectedPrice)
 
-  // Predefined price points - EXACTLY like in the original image
-  const pricePoints = {
-    P1: { price: 75, label: 'P1', color: '#EF4444', description: 'Hoher Preis (über Gleichgewicht)' },
-    P2: { price: 50, label: 'P2', color: '#10B981', description: 'Gleichgewichtspreis' },
-    P3: { price: 25, label: 'P3', color: '#3B82F6', description: 'Niedriger Preis (unter Gleichgewicht)' }
-  }
+  // Removed predefined price points
 
   const getPriceAnalysis = () => {
     const tolerance = 3
@@ -86,7 +83,7 @@ export default function InteractiveDiagram() {
     } else if (selectedPrice > equilibrium.price) {
       const surplus = quantitySupplied - quantityDemanded
       return {
-        type: 'Angebotsüberschuss',
+        type: 'Angebotsüberhang',
         description: `Der Preis liegt über dem Gleichgewichtspreis. Es entsteht ein Angebotsüberschuss von ${surplus.toFixed(1)} Einheiten.`,
         color: 'text-red-400',
         situation: selectedPrice > 70 ? 'P1 - Hoher Preis' : 'Über Gleichgewicht',
@@ -96,7 +93,7 @@ export default function InteractiveDiagram() {
     } else {
       const shortage = quantityDemanded - quantitySupplied
       return {
-        type: 'Nachfrageüberschuss',
+        type: 'Nachfrageüberhang',
         description: `Der Preis liegt unter dem Gleichgewichtspreis. Es entsteht ein Nachfrageüberschuss von ${shortage.toFixed(1)} Einheiten.`,
         color: 'text-blue-400',
         situation: selectedPrice < 30 ? 'P3 - Niedriger Preis' : 'Unter Gleichgewicht',
@@ -108,16 +105,56 @@ export default function InteractiveDiagram() {
 
   const analysis = getPriceAnalysis()
 
-  // Calculate elasticity at current point
+  // Point price elasticity of demand at current point: |E| = P/(dE * QD)
   const calculateElasticity = () => {
-    const priceChange = 1
-    const newQuantityDemanded = getQuantityDemanded(selectedPrice + priceChange)
-    const percentChangeQuantity = ((newQuantityDemanded - quantityDemanded) / quantityDemanded) * 100
-    const percentChangePrice = (priceChange / selectedPrice) * 100
-    return Math.abs(percentChangeQuantity / percentChangePrice)
+    if (selectedPrice <= 0 || quantityDemanded <= 0) return Infinity
+    return Math.abs(selectedPrice / (demandElasticity * quantityDemanded))
   }
 
   const currentElasticity = calculateElasticity()
+
+  // Traded quantity (short side)
+  const tradedQuantity = Math.min(quantityDemanded, quantitySupplied)
+
+  // Surpluses under linear curves up to traded quantity
+  // Demand curve: P = 100 - dE Q; Supply curve: P = sE Q
+  const consumerSurplus = Math.max(
+    0,
+    (100 - selectedPrice) * tradedQuantity - 0.5 * demandElasticity * tradedQuantity * tradedQuantity
+  )
+  const producerSurplus = Math.max(
+    0,
+    selectedPrice * tradedQuantity - 0.5 * supplyElasticity * tradedQuantity * tradedQuantity
+  )
+
+  // Custom shaded band to guarantee visibility across Recharts versions
+  const ShadedBand = ({ x1, x2, color, label }: { x1: number; x2: number; color: string; label: string }) => (
+    <Customized
+      component={({ xAxisMap, yAxisMap, offset }: any) => {
+        const xKey = Object.keys(xAxisMap)[0]
+        const yKey = Object.keys(yAxisMap)[0]
+        const xScale = xAxisMap[xKey]?.scale
+        const yScale = yAxisMap[yKey]?.scale
+        if (!xScale || !yScale) return null
+
+        const left = xScale(Math.min(x1, x2))
+        const right = xScale(Math.max(x1, x2))
+        const top = yScale(100)
+        const bottom = yScale(0)
+        const width = Math.max(0, right - left)
+        const height = Math.max(0, bottom - top)
+
+        return (
+          <g transform={`translate(${offset.left}, ${offset.top})`} pointerEvents="none">
+            <rect x={left} y={top} width={width} height={height} fill={color} opacity={0.28} stroke={color} strokeDasharray="4 4" />
+            <text x={left + width / 2} y={top + 16} textAnchor="middle" fontWeight={700} fill={color}>
+              {label}
+            </text>
+          </g>
+        )
+      }}
+    />
+  )
 
   return (
     <section className="mb-16">
@@ -149,7 +186,6 @@ export default function InteractiveDiagram() {
             <button
               onClick={() => {
                 setSelectedPrice(50)
-                setSelectedPoint(null)
               }}
               className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-all"
             >
@@ -158,80 +194,42 @@ export default function InteractiveDiagram() {
           </div>
         </div>
 
-        <p className="text-gray-300 mb-8">
-          Experimentiere mit verschiedenen Preisen und Elastizitäten, um zu verstehen, wie sich Märkte verhalten.
-          Nutze die Steuerungen unten, um das Diagramm anzupassen.
-        </p>
+        {/* Removed intro text as requested */}
 
-        {/* Quick Price Selection */}
-        <div className="mb-8">
-          <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-            <Target className="w-5 h-5 text-primary-400" />
-            Schnellauswahl Preispunkte
-          </h3>
-          <div className="grid grid-cols-3 gap-4">
-            {Object.entries(pricePoints).map(([key, point]) => (
-              <button
-                key={key}
-                onClick={() => {
-                  setSelectedPrice(point.price)
-                  setSelectedPoint(key as 'P1' | 'P2' | 'P3')
-                }}
-                className={`p-4 rounded-xl border transition-all ${
-                  selectedPoint === key
-                    ? 'border-primary-500 bg-primary-500/10'
-                    : 'border-dark-600 bg-dark-700/50 hover:border-dark-500'
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-4 h-4 rounded-full"
-                    style={{ backgroundColor: point.color }}
-                  />
-                  <div className="text-left">
-                    <div className="font-semibold text-white">{point.label}</div>
-                    <div className="text-sm text-gray-400">{point.price.toFixed(1)}€</div>
-                  </div>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
+        {/* Removed quick price selection */}
 
         <div className="grid xl:grid-cols-3 gap-8 mb-8">
           {/* Interactive Chart */}
           <div className="xl:col-span-2 bg-dark-700/50 rounded-xl p-6 border border-dark-600">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-xl font-semibold text-white">Diagramm</h3>
-              <div className="flex items-center gap-4">
-                <label className="flex items-center gap-2 text-sm text-gray-300">
-                  <input
-                    type="checkbox"
-                    checked={showSurplus}
-                    onChange={(e) => setShowSurplus(e.target.checked)}
-                    className="rounded"
-                  />
-                  Überschuss/Mangel anzeigen
-                </label>
-              </div>
-            </div>
+
 
             <div className="h-96 mb-4">
               <ResponsiveContainer width="100%" height="100%">
                 <LineChart data={data} margin={{ top: 20, right: 30, left: 40, bottom: 40 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                   <XAxis
+                    xAxisId={0}
                     dataKey="quantity"
+                    type="number"
+                    domain={[0, 100]}
+                    allowDecimals
                     stroke="#9CA3AF"
                     label={{ value: 'Menge (Q)', position: 'insideBottom', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                   />
                   <YAxis
+                    yAxisId={0}
+                    type="number"
+                    domain={[0, 100]}
+                    ticks={[0, 25, 50, 75, 100]}
+                    tickMargin={8}
                     stroke="#9CA3AF"
                     label={{ value: 'Preis (P)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                   />
 
                   {/* Demand curve */}
                   <Line
+                    xAxisId={0}
+                    yAxisId={0}
                     type="monotone"
                     dataKey="demand"
                     stroke="#3B82F6"
@@ -242,6 +240,8 @@ export default function InteractiveDiagram() {
 
                   {/* Supply curve */}
                   <Line
+                    xAxisId={0}
+                    yAxisId={0}
                     type="monotone"
                     dataKey="supply"
                     stroke="#EF4444"
@@ -250,13 +250,118 @@ export default function InteractiveDiagram() {
                     name="Angebot"
                   />
 
-                  {/* Selected price line */}
+                  {/* Selected price line (always visible) */}
                   <ReferenceLine
                     y={selectedPrice}
                     stroke="#F59E0B"
                     strokeWidth={3}
                     strokeDasharray="8 4"
+                    label={{ value: `Preis: ${selectedPrice.toFixed(1)}€`, position: 'left', style: { fill: '#F59E0B', fontWeight: 700 } }}
                   />
+
+                  {/* Equilibrium reference lines */}
+                  <>
+                    <ReferenceLine
+                      yAxisId={0}
+                      y={equilibrium.price}
+                      stroke="#10B981"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.8}
+                      label={{ value: `P*: ${equilibrium.price.toFixed(1)}€`, position: 'right' }}
+                    />
+                    <ReferenceLine
+                      xAxisId={0}
+                      x={equilibrium.quantity}
+                      stroke="#10B981"
+                      strokeWidth={2}
+                      strokeDasharray="5 5"
+                      strokeOpacity={0.6}
+                      label={{ value: `Q*: ${equilibrium.quantity.toFixed(1)}`, position: 'top' }}
+                    />
+                    <ReferenceDot
+                      xAxisId={0}
+                      yAxisId={0}
+                      x={equilibrium.quantity}
+                      y={equilibrium.price}
+                      r={6}
+                      fill="#10B981"
+                      stroke="#fff"
+                      label={{ value: 'Gleichgewicht', position: 'top', style: { fill: '#10B981', fontWeight: 700 } }}
+                    />
+                  </>
+
+                  {/* Supply surplus (when price > equilibrium) */}
+                  {selectedPrice > equilibrium.price && quantitySupplied > quantityDemanded && (
+                    <>
+                      {/* Robust shaded band using Customized to avoid version quirks */}
+                      <ShadedBand x1={quantityDemanded} x2={quantitySupplied} color="#EF4444" label="Angebotsüberhang" />
+                      {/* ReferenceArea fallback */}
+                      <ReferenceArea
+                        xAxisId={0}
+                        yAxisId={0}
+                        x1={quantityDemanded}
+                        x2={quantitySupplied}
+                        y1={0}
+                        y2={100}
+                        fill="#EF4444"
+                        fillOpacity={0.18}
+                        stroke="#EF4444"
+                        strokeDasharray="4 4"
+                      />
+                      {/* Label anchor (no-op) */}
+                      <ReferenceDot x={(quantityDemanded + quantitySupplied) / 2} y={equilibrium.price} r={0} />
+                    </>
+                  )}
+
+                  {/* Demand surplus (when price < equilibrium) */}
+                  {selectedPrice < equilibrium.price && quantityDemanded > quantitySupplied && (
+                    <>
+                      {/* Robust shaded band using Customized to avoid version quirks */}
+                      <ShadedBand x1={quantitySupplied} x2={quantityDemanded} color="#3B82F6" label="Nachfrageüberhang" />
+                      {/* ReferenceArea fallback */}
+                      <ReferenceArea
+                        xAxisId={0}
+                        yAxisId={0}
+                        x1={quantitySupplied}
+                        x2={quantityDemanded}
+                        y1={0}
+                        y2={100}
+                        fill="#3B82F6"
+                        fillOpacity={0.18}
+                        stroke="#3B82F6"
+                        strokeDasharray="4 4"
+                      />
+                      {/* Add a no-op dot to keep label ordering consistent */}
+                      <ReferenceDot x={(quantitySupplied + quantityDemanded) / 2} y={equilibrium.price} r={0} />
+                    </>
+                  )}
+
+                  {/* Quantity guides: always show for visual feedback */}
+                  <>
+                    <ReferenceLine
+                      x={quantityDemanded}
+                      stroke="#3B82F6"
+                      strokeWidth={3}
+                      strokeDasharray="6 6"
+                      label={{
+                        value: `Nachfrage: ${quantityDemanded.toFixed(1)}`,
+                        position: "bottom",
+                        style: { fill: '#3B82F6', fontWeight: 'bold' }
+                      }}
+                    />
+                    <ReferenceLine
+                      x={quantitySupplied}
+                      stroke="#EF4444"
+                      strokeWidth={3}
+                      strokeDasharray="6 6"
+                      label={{
+                        value: `Angebot: ${quantitySupplied.toFixed(1)}`,
+                        position: "bottom",
+                        style: { fill: '#EF4444', fontWeight: 'bold' }
+                      }}
+                    />
+                  </>
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -275,7 +380,7 @@ export default function InteractiveDiagram() {
                   step="0.5"
                   value={selectedPrice}
                   onChange={(e) => setSelectedPrice(Number(e.target.value))}
-                  className="w-full h-3 bg-dark-600 rounded-lg appearance-none cursor-pointer slider"
+                  className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-yellow"
                 />
               </div>
 
@@ -291,7 +396,7 @@ export default function InteractiveDiagram() {
                   step="0.1"
                   value={demandElasticity}
                   onChange={(e) => setDemandElasticity(Number(e.target.value))}
-                  className="w-full h-3 bg-blue-600/20 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-blue"
                 />
                 <div className="text-xs text-gray-400 flex justify-between">
                   <span>Unelastisch (0.2)</span>
@@ -311,7 +416,7 @@ export default function InteractiveDiagram() {
                   step="0.1"
                   value={supplyElasticity}
                   onChange={(e) => setSupplyElasticity(Number(e.target.value))}
-                  className="w-full h-3 bg-red-600/20 rounded-lg appearance-none cursor-pointer"
+                  className="w-full h-4 rounded-lg appearance-none cursor-pointer slider-red"
                 />
                 <div className="text-xs text-gray-400 flex justify-between">
                   <span>Unelastisch (0.2)</span>
@@ -326,7 +431,7 @@ export default function InteractiveDiagram() {
             <div className="bg-dark-700/50 rounded-xl p-6 border border-dark-600">
               <h3 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
                 <AlertTriangle className="w-5 h-5 text-yellow-400" />
-                Live Marktanalyse
+                Marktanalyse
               </h3>
 
               <div className="space-y-4">
@@ -336,8 +441,18 @@ export default function InteractiveDiagram() {
                     <div className="text-lg font-bold text-white">{selectedPrice.toFixed(1)}€</div>
                   </div>
                   <div className="p-3 bg-dark-600/50 rounded-lg">
-                    <div className="text-xs text-gray-400 mb-1">Gleichgewichtspreis</div>
+                    <div className="text-xs text-gray-400 mb-1">Gleichgewichtspreis (P*)</div>
                     <div className="text-lg font-bold text-green-400">{equilibrium.price.toFixed(1)}€</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-dark-600/50 rounded-lg">
+                    <div className="text-xs text-gray-400 mb-1">Gleichgewichtsmenge (Q*)</div>
+                    <div className="text-lg font-bold text-green-400">{equilibrium.quantity.toFixed(1)}</div>
+                  </div>
+                  <div className="p-3 bg-dark-600/50 rounded-lg">
+                    <div className="text-xs text-gray-400 mb-1">Überschuss/Mangel</div>
+                    <div className="text-lg font-bold text-white">{Math.abs(quantitySupplied - quantityDemanded).toFixed(1)}</div>
                   </div>
                 </div>
 
@@ -356,7 +471,7 @@ export default function InteractiveDiagram() {
                   <div className="flex items-center gap-2 mb-2">
                     <div className={`w-3 h-3 rounded-full ${
                       analysis.type === 'Gleichgewicht' ? 'bg-green-400' :
-                      analysis.type === 'Angebotsüberschuss' ? 'bg-red-400' : 'bg-blue-400'
+                      analysis.type === 'Angebotsüberhang' ? 'bg-red-400' : 'bg-blue-400'
                     }`}></div>
                     <span className={`font-semibold ${analysis.color}`}>{analysis.type}</span>
                   </div>
@@ -366,11 +481,22 @@ export default function InteractiveDiagram() {
 
                 <div className="p-4 bg-purple-600/10 border border-purple-600/30 rounded-lg">
                   <div className="text-sm font-semibold text-purple-400 mb-2">Preiselastizität der Nachfrage</div>
-                  <div className="text-2xl font-bold text-white mb-1">{currentElasticity.toFixed(2)}</div>
+                  <div className="text-2xl font-bold text-white mb-1">{currentElasticity === Infinity ? '∞' : currentElasticity.toFixed(2)}</div>
                   <div className="text-xs text-gray-400">
                     {currentElasticity > 1 ? 'Elastische Nachfrage' :
                      currentElasticity === 1 ? 'Einheitselastische Nachfrage' :
                      'Unelastische Nachfrage'}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="p-3 bg-green-600/10 border border-green-600/30 rounded-lg">
+                    <div className="text-xs text-green-400 mb-1">Konsumentenrente (≈)</div>
+                    <div className="text-lg font-bold text-green-400">{consumerSurplus.toFixed(0)}</div>
+                  </div>
+                  <div className="p-3 bg-red-600/10 border border-red-600/30 rounded-lg">
+                    <div className="text-xs text-red-400 mb-1">Produzentenrente (≈)</div>
+                    <div className="text-lg font-bold text-red-400">{producerSurplus.toFixed(0)}</div>
                   </div>
                 </div>
               </div>
@@ -393,7 +519,6 @@ export default function InteractiveDiagram() {
             exit={{ opacity: 0, height: 0 }}
             className="bg-primary-500/10 border border-primary-500/30 rounded-xl p-6 mb-8"
           >
-            <h4 className="font-semibold text-white mb-4">Wie funktioniert das interaktive Diagramm?</h4>
             <div className="grid md:grid-cols-3 gap-6 text-sm text-gray-300">
               <div>
                 <h5 className="font-medium text-blue-400 mb-2">Nachfragekurve (Blau)</h5>
@@ -404,18 +529,31 @@ export default function InteractiveDiagram() {
                 <p>Zeigt, wie viel Produzenten bei verschiedenen Preisen anbieten möchten. Höhere Elastizität bedeutet stärkere Reaktion auf Preisänderungen.</p>
               </div>
               <div>
-                <h5 className="font-medium text-yellow-400 mb-2">Interaktive Steuerung</h5>
-                <p>Nutze die Slider, um Preise und Elastizitäten zu ändern. Beobachte, wie sich Überschüsse und Mängel entwickeln.</p>
+                <h5 className="font-medium text-green-400 mb-2">Was passiert gerade?</h5>
+                <p>
+                  Aktueller Preis: <span className="text-white font-medium">{selectedPrice.toFixed(1)}€</span>.
+                  Gleichgewicht: <span className="text-green-400 font-medium">P* {equilibrium.price.toFixed(1)}€, Q* {equilibrium.quantity.toFixed(1)}</span>.
+                </p>
+                <p>
+                  Bei diesem Preis wollen Käufer etwa <span className="text-blue-400 font-medium">{quantityDemanded.toFixed(1)}</span> Einheiten,
+                  Verkäufer bieten etwa <span className="text-red-400 font-medium">{quantitySupplied.toFixed(1)}</span> Einheiten an.
+                </p>
+                <p>
+                  {selectedPrice > equilibrium.price ? (
+                    <>
+                      Der Preis liegt über P*. Es gibt einen <span className="text-red-400 font-semibold">Angebotsüberhang</span> von
+                      {' '}{(quantitySupplied - quantityDemanded).toFixed(1)} Einheiten. Zu viele Waren, zu wenige Käufer.
+                    </>
+                  ) : selectedPrice < equilibrium.price ? (
+                    <>
+                      Der Preis liegt unter P*. Es gibt einen <span className="text-blue-400 font-semibold">Nachfrageüberhang</span> von
+                      {' '}{(quantityDemanded - quantitySupplied).toFixed(1)} Einheiten. Viele wollen kaufen, aber es gibt zu wenig.
+                    </>
+                  ) : (
+                    <>Preis und P* sind gleich: <span className="text-green-400 font-semibold">Gleichgewicht</span>. Angebot = Nachfrage.</>
+                  )}
+                </p>
               </div>
-            </div>
-            <div className="mt-6 p-4 bg-dark-700/50 rounded-lg">
-              <h5 className="font-medium text-green-400 mb-2">Lernziele</h5>
-              <ul className="text-xs text-gray-300 space-y-1">
-                <li>• Verstehe den Zusammenhang zwischen Preis und Menge</li>
-                <li>• Erkenne, wie Elastizität die Kurvenform beeinflusst</li>
-                <li>• Identifiziere Marktungleichgewichte und ihre Ursachen</li>
-                <li>• Lerne die Auswirkungen von Preisregulierung kennen</li>
-              </ul>
             </div>
           </motion.div>
         )}

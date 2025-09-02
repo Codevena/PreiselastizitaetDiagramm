@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot } from 'recharts'
-import { TrendingUp, Target, CheckCircle, XCircle, RotateCcw, Eye, EyeOff, Info, DollarSign, BookOpen, ArrowUp, ArrowDown, Minus } from 'lucide-react'
+import { TrendingUp, Target, CheckCircle, XCircle, RotateCcw, Eye, EyeOff, Info, BookOpen, ArrowUp, ArrowDown, Minus } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 
@@ -61,12 +61,7 @@ const questions = [
 ]
 
 export default function DiagramWithQuiz() {
-  // Advanced diagram states (independent)
-  const [advancedPrice, setAdvancedPrice] = useState(50)
-  const [demandElasticity, setDemandElasticity] = useState(1)
-  const [supplyElasticity, setSupplyElasticity] = useState(1)
-
-  // Quiz diagram states (independent)
+  // Quiz diagram states
   const [selectedPrice, setSelectedPrice] = useState(50)
   const [selectedAnswers, setSelectedAnswers] = useState<{ [key: string]: number }>({})
   const [showAnswers, setShowAnswers] = useState(false)
@@ -74,19 +69,6 @@ export default function DiagramWithQuiz() {
 
   // Animation states
   const [isTransitioning, setIsTransitioning] = useState(false)
-
-  // Generate data for advanced diagram
-  const generateAdvancedData = () => {
-    const data = []
-    for (let quantity = 0; quantity <= 100; quantity += 2) {
-      data.push({
-        quantity,
-        demand: Math.max(0, 100 - (quantity * demandElasticity)), // Elasticity affects curve steepness
-        supply: Math.min(100, quantity * supplyElasticity), // Elasticity affects curve steepness
-      })
-    }
-    return data
-  }
 
   // Generate simple linear data for quiz diagram
   const generateQuizData = () => {
@@ -101,7 +83,6 @@ export default function DiagramWithQuiz() {
     return data
   }
 
-  const advancedData = generateAdvancedData()
   const quizData = generateQuizData()
 
   // Price points exactly like in the image
@@ -115,9 +96,6 @@ export default function DiagramWithQuiz() {
   const quantityDemanded = Math.max(0, 100 - selectedPrice)
   const quantitySupplied = Math.max(0, selectedPrice)
 
-  // Calculate quantities for advanced diagram
-  const advancedQuantityDemanded = Math.max(0, 100 - (advancedPrice * demandElasticity))
-  const advancedQuantitySupplied = Math.min(100, advancedPrice * supplyElasticity)
 
   // Smooth price transition function
   const handlePriceChange = (newPrice: number) => {
@@ -165,6 +143,29 @@ export default function DiagramWithQuiz() {
     }
   }, [showAnswers, selectedAnswers, calculateScore])
 
+  // Selected helpers for styling
+  const selectedPoint = Object.values(pricePoints).find(p => p.price === selectedPrice)
+  const selectedColor = selectedPoint?.color ?? '#9CA3AF'
+
+  // Custom Y axis tick to highlight selected price
+  const YAxisTick = ({ x, y, payload }: any) => {
+    const isSelected = payload?.value === selectedPrice
+    return (
+      <g transform={`translate(${x},${y})`}>
+        <text
+          x={0}
+          y={0}
+          dy={4}
+          textAnchor="end"
+          fill={isSelected ? selectedColor : '#9CA3AF'}
+          fontWeight={isSelected ? 800 : 400}
+        >
+          {payload?.value}
+        </text>
+      </g>
+    )
+  }
+
   return (
     <section className="mb-16">
       <motion.div
@@ -175,201 +176,7 @@ export default function DiagramWithQuiz() {
       >
 
 
-        {/* Advanced Interactive Diagram - The one you wanted restored! */}
-        <div className="mb-6 sm:mb-8 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-xl p-4 sm:p-6 border border-indigo-700/30">
-          <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
-            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
-            <span className="hidden sm:inline">Interaktive Marktanalyse</span>
-            <span className="sm:hidden">Marktanalyse</span>
-          </h3>
-
-          <div className="grid xl:grid-cols-3 gap-6">
-            {/* Advanced Chart */}
-            <div className="xl:col-span-2 bg-dark-700/50 rounded-xl p-6 border border-dark-600">
-              <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-semibold text-white">Live-Diagramm</h4>
-                <div className="flex gap-2">
-                  <button
-                    onClick={() => {
-                      setAdvancedPrice(50)
-                      setDemandElasticity(1)
-                      setSupplyElasticity(1)
-                    }}
-                    className="px-3 py-1 bg-green-600 hover:bg-green-700 text-white rounded text-sm transition-all"
-                  >
-                    Reset
-                  </button>
-                </div>
-              </div>
-
-              {/* Enhanced Chart */}
-              <div className="h-80 mb-4">
-                <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={advancedData} margin={{ top: 20, right: 30, left: 40, bottom: 40 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
-                    <XAxis
-                      dataKey="quantity"
-                      stroke="#9CA3AF"
-                      label={{ value: 'Menge (Q)', position: 'insideBottom', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
-                    />
-                    <YAxis
-                      stroke="#9CA3AF"
-                      label={{ value: 'Preis (P)', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
-                    />
-
-                    {/* Demand curve */}
-                    <Line
-                      type="monotone"
-                      dataKey="demand"
-                      stroke="#3B82F6"
-                      strokeWidth={4}
-                      dot={false}
-                      name="Nachfrage"
-                    />
-
-                    {/* Supply curve */}
-                    <Line
-                      type="monotone"
-                      dataKey="supply"
-                      stroke="#EF4444"
-                      strokeWidth={4}
-                      dot={false}
-                      name="Angebot"
-                    />
-
-                    {/* Current price line */}
-                    <ReferenceLine
-                      y={advancedPrice}
-                      stroke="#F59E0B"
-                      strokeWidth={3}
-                      strokeDasharray="8 4"
-                      label={{ value: `${advancedPrice.toFixed(1)}€`, position: "left" }}
-                    />
-
-                    {/* Equilibrium point */}
-                    <Dot cx={250} cy={150} r={8} fill="#10B981" stroke="#ffffff" strokeWidth={3} />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-
-              {/* Advanced Controls - Under the chart */}
-              <div className="space-y-4 mt-6">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-yellow-400 flex items-center gap-2">
-                    <DollarSign className="w-4 h-4" />
-                    Preis: {advancedPrice.toFixed(1)}€
-                  </label>
-                  <input
-                    type="range"
-                    min="5"
-                    max="95"
-                    step="0.5"
-                    value={advancedPrice}
-                    onChange={(e) => setAdvancedPrice(Number(e.target.value))}
-                    className="w-full h-4 bg-gradient-to-r from-yellow-600/40 to-yellow-500/40 rounded-lg appearance-none cursor-pointer slider-yellow"
-                  />
-                  <div className="text-xs text-gray-400 flex justify-between">
-                    <span>5€</span>
-                    <span>95€</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-blue-400 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4 rotate-180" />
-                    Nachfrage-Elastizität: {demandElasticity.toFixed(1)}
-                  </label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={demandElasticity}
-                    onChange={(e) => setDemandElasticity(Number(e.target.value))}
-                    className="w-full h-4 bg-gradient-to-r from-blue-600/40 to-blue-500/40 rounded-lg appearance-none cursor-pointer slider-blue"
-                  />
-                  <div className="text-xs text-gray-400 flex justify-between">
-                    <span>Elastisch</span>
-                    <span>Unelastisch</span>
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-red-400 flex items-center gap-2">
-                    <TrendingUp className="w-4 h-4" />
-                    Angebots-Elastizität: {supplyElasticity.toFixed(1)}
-                  </label>
-                  <input
-                    type="range"
-                    min="0.5"
-                    max="2"
-                    step="0.1"
-                    value={supplyElasticity}
-                    onChange={(e) => setSupplyElasticity(Number(e.target.value))}
-                    className="w-full h-4 bg-gradient-to-r from-red-600/40 to-red-500/40 rounded-lg appearance-none cursor-pointer slider-red"
-                  />
-                  <div className="text-xs text-gray-400 flex justify-between">
-                    <span>Elastisch</span>
-                    <span>Unelastisch</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Advanced Statistics Panel */}
-            <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-xl p-6 border border-purple-700/30">
-              <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                <TrendingUp className="w-5 h-5 text-purple-400" />
-                Marktstatistiken
-              </h4>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="p-3 bg-yellow-600/10 border border-yellow-600/30 rounded-lg">
-                    <div className="text-sm text-yellow-400 mb-1">Aktueller Status</div>
-                    <div className="text-base font-bold text-white">
-                      {advancedQuantitySupplied === advancedQuantityDemanded ? 'Gleichgewicht' :
-                       advancedQuantitySupplied > advancedQuantityDemanded ? 'Angebotsüberschuss' : 'Nachfrageüberschuss'}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-3">
-                  <div className="text-center p-3 bg-dark-600/50 rounded-lg">
-                    <div className="text-sm text-gray-400 mb-1">Überschuss/Mangel</div>
-                    <div className="text-xl font-bold text-white">
-                      {Math.abs(advancedQuantitySupplied - advancedQuantityDemanded).toFixed(0)}
-                    </div>
-                  </div>
-                  <div className="text-center p-3 bg-green-600/10 border border-green-600/30 rounded-lg">
-                    <div className="text-sm text-green-400 mb-1">Konsumentenrente</div>
-                    <div className="text-base font-bold text-green-400">
-                      {((100 - advancedPrice) * advancedQuantityDemanded / 2).toFixed(0)}
-                    </div>
-                  </div>
-                  <div className="text-center p-3 bg-red-600/10 border border-red-600/30 rounded-lg">
-                    <div className="text-sm text-red-400 mb-1">Produzentenrente</div>
-                    <div className="text-base font-bold text-red-400">
-                      {(advancedPrice * advancedQuantitySupplied / 2).toFixed(0)}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="p-3 bg-indigo-600/10 border border-indigo-600/30 rounded-lg">
-                  <div className="text-sm text-indigo-400 mb-1">Preiselastizität</div>
-                  <div className="text-base font-bold text-white">
-                    {advancedPrice > 0 ? (advancedQuantityDemanded / advancedPrice).toFixed(2) : '∞'}
-                  </div>
-                  <div className="text-sm text-gray-400">
-                    {(advancedQuantityDemanded / advancedPrice) > 1 ? 'Elastisch' : 'Unelastisch'}
-                  </div>
-                </div>
-
-
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Advanced Interactive Diagram removed to avoid duplication */}
 
         {/* Prohibitivpreis Explanation */}
         <div className="mb-8 bg-gradient-to-br from-amber-900/20 to-orange-900/20 rounded-xl p-6 border border-amber-700/30">
@@ -562,16 +369,24 @@ export default function DiagramWithQuiz() {
               {/* Chart */}
               <div className="flex-1 mb-4">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={quizData} margin={{ top: 20, right: 30, left: 40, bottom: 40 }}>
+                  <LineChart data={quizData} margin={{ top: 20, right: 36, left: 48, bottom: 40 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#374151" />
                     <XAxis 
+                      type="number"
+                      domain={[0, 100]}
                       dataKey="quantity" 
                       stroke="#9CA3AF"
                       label={{ value: 'Menge', position: 'insideBottom', offset: -10, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     />
                     <YAxis 
+                      type="number"
+                      domain={[0, 100]}
+                      ticks={[0, 25, 50, 75, 100]}
+                      tickMargin={10}
+                      width={42}
                       stroke="#9CA3AF"
-                      label={{ value: 'Preis', angle: -90, position: 'insideLeft', style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
+                      tick={<YAxisTick />}
+                      label={{ value: 'Preis', angle: -90, position: 'insideLeft', offset: -8, style: { textAnchor: 'middle', fill: '#9CA3AF' } }}
                     />
                     
                     {/* Demand curve */}
@@ -594,18 +409,30 @@ export default function DiagramWithQuiz() {
                       name="Angebot"
                     />
                     
-                    {/* Price lines for P1, P2, P3 */}
-                    <ReferenceLine y={75} stroke="#EF4444" strokeWidth={2} strokeDasharray="5 5" label={{ value: "P1", position: "left" }} />
-                    <ReferenceLine y={50} stroke="#10B981" strokeWidth={2} strokeDasharray="5 5" label={{ value: "P2", position: "left" }} />
-                    <ReferenceLine y={25} stroke="#3B82F6" strokeWidth={2} strokeDasharray="5 5" label={{ value: "P3", position: "left" }} />
-                    
-                    {/* Current selected price */}
+                    {/* Price lines for P1, P2, P3 (selected one is bold) */}
                     <ReferenceLine 
-                      y={selectedPrice} 
-                      stroke="#F59E0B" 
-                      strokeWidth={4} 
-                      strokeDasharray="8 4"
+                      y={75} 
+                      stroke="#EF4444" 
+                      strokeWidth={selectedPrice === 75 ? 4 : 2}
+                      strokeDasharray={selectedPrice === 75 ? '0' : '5 5'} 
+                      label={{ value: "P1", position: "right", style: { fill: '#EF4444', fontWeight: selectedPrice === 75 ? 900 : 700 } }} 
                     />
+                    <ReferenceLine 
+                      y={50} 
+                      stroke="#10B981" 
+                      strokeWidth={selectedPrice === 50 ? 4 : 2}
+                      strokeDasharray={selectedPrice === 50 ? '0' : '5 5'} 
+                      label={{ value: "P2", position: "right", style: { fill: '#10B981', fontWeight: selectedPrice === 50 ? 900 : 700 } }} 
+                    />
+                    <ReferenceLine 
+                      y={25} 
+                      stroke="#3B82F6" 
+                      strokeWidth={selectedPrice === 25 ? 4 : 2}
+                      strokeDasharray={selectedPrice === 25 ? '0' : '5 5'} 
+                      label={{ value: "P3", position: "right", style: { fill: '#3B82F6', fontWeight: selectedPrice === 25 ? 900 : 700 } }} 
+                    />
+                    
+                    {/* Removed explicit selected price line; selection reflected by bold P1/P2/P3 */}
                     
                     {/* Equilibrium point */}
                     <Dot cx={200} cy={120} r={6} fill="#10B981" stroke="#ffffff" strokeWidth={2} />

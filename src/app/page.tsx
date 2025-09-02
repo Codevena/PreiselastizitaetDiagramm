@@ -7,6 +7,7 @@ import DefinitionSection from '@/components/DefinitionSection'
 
 import MarketTypesExplanation from '@/components/MarketTypesExplanation'
 import DiagramWithQuiz from '@/components/DiagramWithQuiz'
+import InteractiveDiagram from '@/components/InteractiveDiagram'
 
 export default function Home() {
   return (
@@ -51,6 +52,14 @@ export default function Home() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.5, ease: "easeOut" }}
+        >
+          <InteractiveDiagram />
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.3, delay: 0.6, ease: "easeOut" }}
         >
           <DiagramWithQuiz />
         </motion.div>
