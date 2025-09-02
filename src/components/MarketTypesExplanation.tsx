@@ -35,11 +35,11 @@ export default function MarketTypesExplanation() {
                   <Gavel className="w-4 h-4" />
                   Entstehung bei Höchstpreisen (P3)
                 </h4>
-                <p className="text-sm text-gray-300 mb-3">
+                <p className="text-base text-gray-300 mb-3">
                   Wenn der Staat einen Höchstpreis festlegt (z.B. P3 = 25€), entsteht ein Nachfrageüberschuss. 
                   Die hohe Nachfrage kann nicht legal befriedigt werden, daher entstehen illegale Märkte.
                 </p>
-                <div className="text-xs text-red-200 bg-red-900/20 p-2 rounded">
+                <div className="text-sm text-red-200 bg-red-900/20 p-2 rounded">
                   <strong>Formel:</strong> Nachfrage (75) &gt; Angebot (25) = Mangel von 50 Einheiten
                 </div>
               </div>
@@ -55,19 +55,19 @@ export default function MarketTypesExplanation() {
                       <Home className="w-4 h-4" />
                       Mietpreisbremse
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      Staat begrenzt Mieten auf 800€. Nachfrage ist hoch, aber wenige Vermieter bieten an. 
+                    <p className="text-sm text-gray-300">
+                      Staat begrenzt Mieten auf 800€. Nachfrage ist hoch, aber wenige Vermieter bieten an.
                       Schwarzmarkt: Illegale &quot;Zusatzgebühren&quot; oder Untervermietung zu höheren Preisen.
                     </p>
                   </div>
-                  
+
                   <div className="bg-dark-700/50 rounded-lg p-3">
                     <h5 className="font-medium text-red-300 mb-1 flex items-center gap-2">
                       <Fuel className="w-4 h-4" />
                       Benzinrationierung
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      Kriegszeiten: Benzin wird auf 1€/Liter begrenzt. Hohe Nachfrage, wenig Angebot. 
+                    <p className="text-sm text-gray-300">
+                      Kriegszeiten: Benzin wird auf 1€/Liter begrenzt. Hohe Nachfrage, wenig Angebot.
                       Schwarzmarkt: Benzin wird illegal für 5€/Liter verkauft.
                     </p>
                   </div>
@@ -77,8 +77,8 @@ export default function MarketTypesExplanation() {
                       <Ticket className="w-4 h-4" />
                       Konzerttickets
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      Tickets für 50€ begrenzt, aber 10.000 wollen welche. 
+                    <p className="text-sm text-gray-300">
+                      Tickets für 50€ begrenzt, aber 10.000 wollen welche.
                       Schwarzmarkt: Tickets werden illegal für 500€ weiterverkauft.
                     </p>
                   </div>
@@ -90,7 +90,7 @@ export default function MarketTypesExplanation() {
                   <AlertTriangle className="w-4 h-4" />
                   Probleme:
                 </h5>
-                <ul className="text-xs text-gray-300 space-y-1">
+                <ul className="text-sm text-gray-300 space-y-1">
                   <li>• Illegale Aktivitäten und Kriminalität</li>
                   <li>• Keine Qualitätskontrolle oder Garantien</li>
                   <li>• Sehr hohe Preise für Konsumenten</li>
@@ -115,11 +115,11 @@ export default function MarketTypesExplanation() {
                   <Gavel className="w-4 h-4" />
                   Entstehung bei Mindestpreisen (P1)
                 </h4>
-                <p className="text-sm text-gray-300 mb-3">
+                <p className="text-base text-gray-300 mb-3">
                   Wenn der Staat einen Mindestpreis festlegt (z.B. P1 = 75€), entsteht ein Angebotsüberschuss. 
                   Produzenten haben zu viel und suchen alternative, legale Verkaufswege.
                 </p>
-                <div className="text-xs text-gray-200 bg-gray-900/20 p-2 rounded">
+                <div className="text-sm text-gray-200 bg-gray-900/20 p-2 rounded">
                   <strong>Formel:</strong> Angebot (75) &gt; Nachfrage (25) = Überschuss von 50 Einheiten
                 </div>
               </div>
@@ -135,19 +135,19 @@ export default function MarketTypesExplanation() {
                       <Coins className="w-4 h-4" />
                       Mindestlohn
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      Mindestlohn 12€/Stunde. Viele wollen arbeiten, aber wenige Jobs. 
+                    <p className="text-sm text-gray-300">
+                      Mindestlohn 12€/Stunde. Viele wollen arbeiten, aber wenige Jobs.
                       Grauer Markt: Schwarzarbeit, Praktika, &quot;Selbstständigkeit&quot; unter Mindestlohn.
                     </p>
                   </div>
-                  
+
                   <div className="bg-dark-700/50 rounded-lg p-3">
                     <h5 className="font-medium text-gray-300 mb-1 flex items-center gap-2">
                       <Milk className="w-4 h-4" />
                       Milchpreisgarantie
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      EU garantiert Milchpreis von 40 Cent/Liter. Bauern produzieren viel, wenig Nachfrage. 
+                    <p className="text-sm text-gray-300">
+                      EU garantiert Milchpreis von 40 Cent/Liter. Bauern produzieren viel, wenig Nachfrage.
                       Grauer Markt: Export in andere Länder, Verarbeitung zu Käse/Butter.
                     </p>
                   </div>
@@ -157,8 +157,8 @@ export default function MarketTypesExplanation() {
                       <Smartphone className="w-4 h-4" />
                       Parallelimporte
                     </h5>
-                    <p className="text-xs text-gray-300">
-                      iPhone kostet in Deutschland 1000€, in USA nur 800€. 
+                    <p className="text-sm text-gray-300">
+                      iPhone kostet in Deutschland 1000€, in USA nur 800€.
                       Grauer Markt: Legaler Import und Verkauf zu günstigeren Preisen.
                     </p>
                   </div>
@@ -170,7 +170,7 @@ export default function MarketTypesExplanation() {
                   <Info className="w-4 h-4" />
                   Eigenschaften:
                 </h5>
-                <ul className="text-xs text-gray-300 space-y-1">
+                <ul className="text-sm text-gray-300 space-y-1">
                   <li>• Legal, aber umgeht offizielle Kanäle</li>
                   <li>• Oft günstigere Preise für Konsumenten</li>
                   <li>• Keine Garantie oder Support</li>
@@ -187,7 +187,7 @@ export default function MarketTypesExplanation() {
             <Target className="w-5 h-5" />
             Zusammenfassung:
           </h3>
-          <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
+          <div className="grid md:grid-cols-2 gap-6 text-base text-gray-300">
             <div>
               <h4 className="font-semibold text-red-400 mb-2">Schwarze Märkte:</h4>
               <p>Entstehen bei <strong>Höchstpreisen (P3)</strong> → Nachfrageüberschuss → Illegale Märkte mit sehr hohen Preisen</p>

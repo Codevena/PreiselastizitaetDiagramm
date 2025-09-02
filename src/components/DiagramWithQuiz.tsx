@@ -398,7 +398,7 @@ export default function DiagramWithQuiz() {
                     <TrendingUp className="w-4 h-4 rotate-180" />
                     Nachfrage-Prohibitivpreis
                   </h4>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-base text-gray-300">
                     In unserem Diagramm liegt er bei <strong className="text-blue-400">100€</strong>.
                     Oberhalb dieses Preises kauft niemand mehr das Produkt.
                   </p>
@@ -408,7 +408,7 @@ export default function DiagramWithQuiz() {
                     <TrendingUp className="w-4 h-4" />
                     Angebots-Mindestpreis
                   </h4>
-                  <p className="text-sm text-gray-300">
+                  <p className="text-base text-gray-300">
                     Bei <strong className="text-red-400">0€</strong> bietet niemand das Produkt an.
                     Dies ist der niedrigste Preis für ein Angebot.
                   </p>
@@ -436,11 +436,11 @@ export default function DiagramWithQuiz() {
                     <TrendingUp className="w-4 h-4 rotate-180" />
                     Konsumentenrente
                   </h4>
-                  <p className="text-sm text-gray-300 mb-2">
+                  <p className="text-base text-gray-300 mb-2">
                     Der <strong className="text-green-400">zusätzliche Nutzen</strong> für Käufer, die bereit wären,
                     mehr zu zahlen als den aktuellen Marktpreis.
                   </p>
-                  <div className="text-xs text-green-200 bg-green-900/20 p-2 rounded">
+                  <div className="text-sm text-green-200 bg-green-900/20 p-2 rounded">
                     <strong>Beispiel:</strong> Du würdest 80€ für ein Produkt zahlen, bekommst es aber für 50€.
                     Deine Konsumentenrente = 30€
                   </div>
@@ -450,11 +450,11 @@ export default function DiagramWithQuiz() {
                     <TrendingUp className="w-4 h-4" />
                     Produzentenrente
                   </h4>
-                  <p className="text-sm text-gray-300 mb-2">
+                  <p className="text-base text-gray-300 mb-2">
                     Der <strong className="text-red-400">zusätzliche Gewinn</strong> für Verkäufer, die bereit wären,
                     für weniger zu verkaufen als den aktuellen Marktpreis.
                   </p>
-                  <div className="text-xs text-red-200 bg-red-900/20 p-2 rounded">
+                  <div className="text-sm text-red-200 bg-red-900/20 p-2 rounded">
                     <strong>Beispiel:</strong> Du würdest für 20€ verkaufen, bekommst aber 50€.
                     Deine Produzentenrente = 30€
                   </div>
@@ -465,10 +465,10 @@ export default function DiagramWithQuiz() {
                   <Target className="w-4 h-4 text-yellow-400" />
                   Warum ist das wichtig?
                 </h4>
-                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                <div className="grid md:grid-cols-2 gap-4 text-base">
                   <div>
                     <p className="text-green-300 mb-1"><strong>Konsumentenrente zeigt:</strong></p>
-                    <ul className="text-xs text-gray-300 space-y-1 ml-2">
+                    <ul className="text-sm text-gray-300 space-y-1 ml-2">
                       <li>• Wie zufrieden Käufer sind</li>
                       <li>• Ob Preise &quot;fair&quot; sind</li>
                       <li>• Wohlfahrt der Verbraucher</li>
@@ -476,7 +476,7 @@ export default function DiagramWithQuiz() {
                   </div>
                   <div>
                     <p className="text-red-300 mb-1"><strong>Produzentenrente zeigt:</strong></p>
-                    <ul className="text-xs text-gray-300 space-y-1 ml-2">
+                    <ul className="text-sm text-gray-300 space-y-1 ml-2">
                       <li>• Wie profitabel Verkäufer sind</li>
                       <li>• Anreize für Unternehmen</li>
                       <li>• Wohlfahrt der Produzenten</li>
@@ -494,7 +494,7 @@ export default function DiagramWithQuiz() {
             <BookOpen className="w-5 h-5" />
             Wichtige Regeln
           </h3>
-          <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
+          <div className="grid md:grid-cols-2 gap-6 text-base text-gray-300">
             <div>
               <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
                 <ArrowUp className="w-4 h-4 text-red-400" />
@@ -667,7 +667,7 @@ export default function DiagramWithQuiz() {
                       <span className="text-sm font-bold text-primary-400 bg-primary-400/20 px-2 py-1 rounded">
                         {question.id})
                       </span>
-                      <p className="text-sm text-white font-medium flex-1">{question.question}</p>
+                      <p className="text-base text-white font-medium flex-1">{question.question}</p>
                       {showAnswers && (
                         <div className="flex-shrink-0">
                           {selectedAnswers[question.id] === question.correct ? (
@@ -689,7 +689,7 @@ export default function DiagramWithQuiz() {
                           initial={{ opacity: 0, x: -10 }}
                           animate={{ opacity: 1, x: 0 }}
                           transition={{ delay: optionIndex * 0.1 }}
-                          className={`w-full text-left p-2 rounded text-sm transition-all duration-300 ${
+                          className={`w-full text-left p-2 rounded text-base transition-all duration-300 ${
                             selectedAnswers[question.id] === optionIndex
                               ? showAnswers && optionIndex === question.correct
                                 ? 'bg-green-600/20 border border-green-600/50 text-green-300 shadow-lg shadow-green-600/20'
@@ -707,7 +707,7 @@ export default function DiagramWithQuiz() {
                     </div>
                     
                     {showAnswers && (
-                      <div className="mt-3 ml-8 p-3 bg-primary-500/10 border border-primary-500/30 rounded text-xs text-gray-300">
+                      <div className="mt-3 ml-8 p-3 bg-primary-500/10 border border-primary-500/30 rounded text-sm text-gray-300">
                         <strong className="text-primary-400">Erklärung:</strong> {question.explanation}
                       </div>
                     )}
