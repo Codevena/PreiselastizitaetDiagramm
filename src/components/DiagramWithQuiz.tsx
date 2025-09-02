@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, ReferenceLine, Dot } from 'recharts'
-import { TrendingUp, Target, CheckCircle, XCircle, RotateCcw, Eye, EyeOff, Info, DollarSign, BookOpen } from 'lucide-react'
+import { TrendingUp, Target, CheckCircle, XCircle, RotateCcw, Eye, EyeOff, Info, DollarSign, BookOpen, ArrowUp, ArrowDown, Minus } from 'lucide-react'
 import confetti from 'canvas-confetti'
 
 
@@ -496,7 +496,10 @@ export default function DiagramWithQuiz() {
           </h3>
           <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
             <div>
-              <h4 className="font-semibold text-white mb-2">🔴 Hoher Preis (P1):</h4>
+              <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                <ArrowUp className="w-4 h-4 text-red-400" />
+                Hoher Preis (P1):
+              </h4>
               <ul className="space-y-1 ml-4">
                 <li>• Wenige Kunden kaufen (niedrige Nachfrage)</li>
                 <li>• Viele Verkäufer bieten an (hohes Angebot)</li>
@@ -505,7 +508,10 @@ export default function DiagramWithQuiz() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold text-white mb-2">🔵 Niedriger Preis (P3):</h4>
+              <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                <ArrowDown className="w-4 h-4 text-blue-400" />
+                Niedriger Preis (P3):
+              </h4>
               <ul className="space-y-1 ml-4">
                 <li>• Viele Kunden wollen kaufen (hohe Nachfrage)</li>
                 <li>• Wenige Verkäufer bieten an (niedriges Angebot)</li>
@@ -516,7 +522,10 @@ export default function DiagramWithQuiz() {
           </div>
 
           <div className="mt-4 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
-            <h4 className="font-semibold text-green-400 mb-2">🟢 Gleichgewichtspreis (P2):</h4>
+            <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
+              <Minus className="w-4 h-4 text-green-400" />
+              Gleichgewichtspreis (P2):
+            </h4>
             <p className="text-gray-300">Perfekte Balance! Angebot = Nachfrage. Alle sind zufrieden, kein Überschuss, kein Mangel.</p>
           </div>
         </div>

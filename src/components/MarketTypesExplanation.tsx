@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { AlertTriangle, Shield, DollarSign, Users, Building, Gavel } from 'lucide-react'
+import { AlertTriangle, Shield, DollarSign, Users, Building, Gavel, Home, Fuel, Ticket, Coins, Milk, Smartphone, Info, Target } from 'lucide-react'
 
 export default function MarketTypesExplanation() {
   return (
@@ -51,7 +51,10 @@ export default function MarketTypesExplanation() {
                 </h4>
                 <div className="space-y-3">
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-red-300 mb-1">🏠 Mietpreisbremse</h5>
+                    <h5 className="font-medium text-red-300 mb-1 flex items-center gap-2">
+                      <Home className="w-4 h-4" />
+                      Mietpreisbremse
+                    </h5>
                     <p className="text-xs text-gray-300">
                       Staat begrenzt Mieten auf 800€. Nachfrage ist hoch, aber wenige Vermieter bieten an. 
                       Schwarzmarkt: Illegale &quot;Zusatzgebühren&quot; oder Untervermietung zu höheren Preisen.
@@ -59,7 +62,10 @@ export default function MarketTypesExplanation() {
                   </div>
                   
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-red-300 mb-1">⛽ Benzinrationierung</h5>
+                    <h5 className="font-medium text-red-300 mb-1 flex items-center gap-2">
+                      <Fuel className="w-4 h-4" />
+                      Benzinrationierung
+                    </h5>
                     <p className="text-xs text-gray-300">
                       Kriegszeiten: Benzin wird auf 1€/Liter begrenzt. Hohe Nachfrage, wenig Angebot. 
                       Schwarzmarkt: Benzin wird illegal für 5€/Liter verkauft.
@@ -67,7 +73,10 @@ export default function MarketTypesExplanation() {
                   </div>
 
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-red-300 mb-1">🎫 Konzerttickets</h5>
+                    <h5 className="font-medium text-red-300 mb-1 flex items-center gap-2">
+                      <Ticket className="w-4 h-4" />
+                      Konzerttickets
+                    </h5>
                     <p className="text-xs text-gray-300">
                       Tickets für 50€ begrenzt, aber 10.000 wollen welche. 
                       Schwarzmarkt: Tickets werden illegal für 500€ weiterverkauft.
@@ -77,7 +86,10 @@ export default function MarketTypesExplanation() {
               </div>
 
               <div className="bg-red-900/20 border border-red-700/50 rounded-lg p-3">
-                <h5 className="font-medium text-red-300 mb-2">⚠️ Probleme:</h5>
+                <h5 className="font-medium text-red-300 mb-2 flex items-center gap-2">
+                  <AlertTriangle className="w-4 h-4" />
+                  Probleme:
+                </h5>
                 <ul className="text-xs text-gray-300 space-y-1">
                   <li>• Illegale Aktivitäten und Kriminalität</li>
                   <li>• Keine Qualitätskontrolle oder Garantien</li>
@@ -119,7 +131,10 @@ export default function MarketTypesExplanation() {
                 </h4>
                 <div className="space-y-3">
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-gray-300 mb-1">💰 Mindestlohn</h5>
+                    <h5 className="font-medium text-gray-300 mb-1 flex items-center gap-2">
+                      <Coins className="w-4 h-4" />
+                      Mindestlohn
+                    </h5>
                     <p className="text-xs text-gray-300">
                       Mindestlohn 12€/Stunde. Viele wollen arbeiten, aber wenige Jobs. 
                       Grauer Markt: Schwarzarbeit, Praktika, &quot;Selbstständigkeit&quot; unter Mindestlohn.
@@ -127,7 +142,10 @@ export default function MarketTypesExplanation() {
                   </div>
                   
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-gray-300 mb-1">🥛 Milchpreisgarantie</h5>
+                    <h5 className="font-medium text-gray-300 mb-1 flex items-center gap-2">
+                      <Milk className="w-4 h-4" />
+                      Milchpreisgarantie
+                    </h5>
                     <p className="text-xs text-gray-300">
                       EU garantiert Milchpreis von 40 Cent/Liter. Bauern produzieren viel, wenig Nachfrage. 
                       Grauer Markt: Export in andere Länder, Verarbeitung zu Käse/Butter.
@@ -135,7 +153,10 @@ export default function MarketTypesExplanation() {
                   </div>
 
                   <div className="bg-dark-700/50 rounded-lg p-3">
-                    <h5 className="font-medium text-gray-300 mb-1">📱 Parallelimporte</h5>
+                    <h5 className="font-medium text-gray-300 mb-1 flex items-center gap-2">
+                      <Smartphone className="w-4 h-4" />
+                      Parallelimporte
+                    </h5>
                     <p className="text-xs text-gray-300">
                       iPhone kostet in Deutschland 1000€, in USA nur 800€. 
                       Grauer Markt: Legaler Import und Verkauf zu günstigeren Preisen.
@@ -145,7 +166,10 @@ export default function MarketTypesExplanation() {
               </div>
 
               <div className="bg-gray-900/20 border border-gray-700/50 rounded-lg p-3">
-                <h5 className="font-medium text-gray-300 mb-2">ℹ️ Eigenschaften:</h5>
+                <h5 className="font-medium text-gray-300 mb-2 flex items-center gap-2">
+                  <Info className="w-4 h-4" />
+                  Eigenschaften:
+                </h5>
                 <ul className="text-xs text-gray-300 space-y-1">
                   <li>• Legal, aber umgeht offizielle Kanäle</li>
                   <li>• Oft günstigere Preise für Konsumenten</li>
@@ -159,7 +183,10 @@ export default function MarketTypesExplanation() {
 
         {/* Summary */}
         <div className="mt-8 bg-gradient-to-r from-blue-500/10 to-purple-500/10 border border-blue-500/30 rounded-xl p-6">
-          <h3 className="text-lg font-semibold text-white mb-4">🎯 Zusammenfassung:</h3>
+          <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+            <Target className="w-5 h-5" />
+            Zusammenfassung:
+          </h3>
           <div className="grid md:grid-cols-2 gap-6 text-sm text-gray-300">
             <div>
               <h4 className="font-semibold text-red-400 mb-2">Schwarze Märkte:</h4>
