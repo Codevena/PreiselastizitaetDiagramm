@@ -325,46 +325,42 @@ export default function DiagramWithQuiz() {
 
               <div className="space-y-4">
                 <div className="grid grid-cols-1 gap-3">
-                  <div className="p-3 bg-purple-600/10 border border-purple-600/30 rounded-lg">
-                    <div className="text-xs text-purple-400 mb-1">Marktgleichgewicht</div>
-                    <div className="text-sm font-bold text-white">P2 = 50€, Q = 50</div>
-                  </div>
                   <div className="p-3 bg-yellow-600/10 border border-yellow-600/30 rounded-lg">
-                    <div className="text-xs text-yellow-400 mb-1">Aktueller Status</div>
-                    <div className="text-sm font-bold text-white">
-                      {advancedPrice === 50 ? 'Gleichgewicht' :
-                       advancedPrice > 50 ? 'Angebotsüberschuss' : 'Nachfrageüberschuss'}
+                    <div className="text-sm text-yellow-400 mb-1">Aktueller Status</div>
+                    <div className="text-base font-bold text-white">
+                      {advancedQuantitySupplied === advancedQuantityDemanded ? 'Gleichgewicht' :
+                       advancedQuantitySupplied > advancedQuantityDemanded ? 'Angebotsüberschuss' : 'Nachfrageüberschuss'}
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-3">
                   <div className="text-center p-3 bg-dark-600/50 rounded-lg">
-                    <div className="text-xs text-gray-400 mb-1">Überschuss/Mangel</div>
-                    <div className="text-lg font-bold text-white">
+                    <div className="text-sm text-gray-400 mb-1">Überschuss/Mangel</div>
+                    <div className="text-xl font-bold text-white">
                       {Math.abs(advancedQuantitySupplied - advancedQuantityDemanded).toFixed(0)}
                     </div>
                   </div>
                   <div className="text-center p-3 bg-green-600/10 border border-green-600/30 rounded-lg">
-                    <div className="text-xs text-green-400 mb-1">Konsumentenrente</div>
-                    <div className="text-sm font-bold text-green-400">
+                    <div className="text-sm text-green-400 mb-1">Konsumentenrente</div>
+                    <div className="text-base font-bold text-green-400">
                       {((100 - advancedPrice) * advancedQuantityDemanded / 2).toFixed(0)}
                     </div>
                   </div>
                   <div className="text-center p-3 bg-red-600/10 border border-red-600/30 rounded-lg">
-                    <div className="text-xs text-red-400 mb-1">Produzentenrente</div>
-                    <div className="text-sm font-bold text-red-400">
+                    <div className="text-sm text-red-400 mb-1">Produzentenrente</div>
+                    <div className="text-base font-bold text-red-400">
                       {(advancedPrice * advancedQuantitySupplied / 2).toFixed(0)}
                     </div>
                   </div>
                 </div>
 
                 <div className="p-3 bg-indigo-600/10 border border-indigo-600/30 rounded-lg">
-                  <div className="text-xs text-indigo-400 mb-1">Preiselastizität</div>
-                  <div className="text-sm font-bold text-white">
+                  <div className="text-sm text-indigo-400 mb-1">Preiselastizität</div>
+                  <div className="text-base font-bold text-white">
                     {advancedPrice > 0 ? (advancedQuantityDemanded / advancedPrice).toFixed(2) : '∞'}
                   </div>
-                  <div className="text-xs text-gray-400">
+                  <div className="text-sm text-gray-400">
                     {(advancedQuantityDemanded / advancedPrice) > 1 ? 'Elastisch' : 'Unelastisch'}
                   </div>
                 </div>
