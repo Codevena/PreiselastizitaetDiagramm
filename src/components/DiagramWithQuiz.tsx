@@ -325,7 +325,7 @@ export default function DiagramWithQuiz() {
             <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-xl p-6 border border-purple-700/30">
               <h4 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
                 <TrendingUp className="w-5 h-5 text-purple-400" />
-                Live Marktstatistiken
+                Marktstatistiken
               </h4>
 
               <div className="space-y-4">
@@ -412,6 +412,76 @@ export default function DiagramWithQuiz() {
                     Bei <strong className="text-red-400">0€</strong> bietet niemand das Produkt an.
                     Dies ist der niedrigste Preis für ein Angebot.
                   </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Consumer and Producer Surplus Explanation */}
+        <div className="mb-8 bg-gradient-to-br from-green-900/20 to-emerald-900/20 rounded-xl p-6 border border-green-700/30">
+          <div className="flex-1">
+            <h3 className="text-xl font-semibold text-white mb-3 flex items-center gap-2">
+              <Info className="w-5 h-5 text-green-400" />
+              Konsumentenrente und Produzentenrente
+            </h3>
+            <div className="space-y-4 text-gray-300">
+              <p className="leading-relaxed">
+                Diese beiden Konzepte zeigen, wie viel <strong className="text-green-400">Nutzen</strong> Käufer und Verkäufer
+                aus einem Markt ziehen können.
+              </p>
+              <div className="grid md:grid-cols-2 gap-4">
+                <div className="bg-dark-700/50 rounded-lg p-4 border border-green-700/20">
+                  <h4 className="font-semibold text-green-400 mb-2 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4 rotate-180" />
+                    Konsumentenrente
+                  </h4>
+                  <p className="text-sm text-gray-300 mb-2">
+                    Der <strong className="text-green-400">zusätzliche Nutzen</strong> für Käufer, die bereit wären,
+                    mehr zu zahlen als den aktuellen Marktpreis.
+                  </p>
+                  <div className="text-xs text-green-200 bg-green-900/20 p-2 rounded">
+                    <strong>Beispiel:</strong> Du würdest 80€ für ein Produkt zahlen, bekommst es aber für 50€.
+                    Deine Konsumentenrente = 30€
+                  </div>
+                </div>
+                <div className="bg-dark-700/50 rounded-lg p-4 border border-green-700/20">
+                  <h4 className="font-semibold text-red-400 mb-2 flex items-center gap-2">
+                    <TrendingUp className="w-4 h-4" />
+                    Produzentenrente
+                  </h4>
+                  <p className="text-sm text-gray-300 mb-2">
+                    Der <strong className="text-red-400">zusätzliche Gewinn</strong> für Verkäufer, die bereit wären,
+                    für weniger zu verkaufen als den aktuellen Marktpreis.
+                  </p>
+                  <div className="text-xs text-red-200 bg-red-900/20 p-2 rounded">
+                    <strong>Beispiel:</strong> Du würdest für 20€ verkaufen, bekommst aber 50€.
+                    Deine Produzentenrente = 30€
+                  </div>
+                </div>
+              </div>
+              <div className="bg-gradient-to-r from-green-500/10 to-red-500/10 border border-green-500/30 rounded-lg p-4">
+                <h4 className="font-semibold text-white mb-2 flex items-center gap-2">
+                  <Target className="w-4 h-4 text-yellow-400" />
+                  Warum ist das wichtig?
+                </h4>
+                <div className="grid md:grid-cols-2 gap-4 text-sm">
+                  <div>
+                    <p className="text-green-300 mb-1"><strong>Konsumentenrente zeigt:</strong></p>
+                    <ul className="text-xs text-gray-300 space-y-1 ml-2">
+                      <li>• Wie zufrieden Käufer sind</li>
+                      <li>• Ob Preise &quot;fair&quot; sind</li>
+                      <li>• Wohlfahrt der Verbraucher</li>
+                    </ul>
+                  </div>
+                  <div>
+                    <p className="text-red-300 mb-1"><strong>Produzentenrente zeigt:</strong></p>
+                    <ul className="text-xs text-gray-300 space-y-1 ml-2">
+                      <li>• Wie profitabel Verkäufer sind</li>
+                      <li>• Anreize für Unternehmen</li>
+                      <li>• Wohlfahrt der Produzenten</li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
