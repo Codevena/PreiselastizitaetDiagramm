@@ -21,6 +21,7 @@ export default function Home() {
         </motion.div>
 
         <motion.div
+          id="main-content"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.3, delay: 0.1, ease: "easeOut" }}
