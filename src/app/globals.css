@@ -1,0 +1,194 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #0f172a;
+  --foreground: #f8fafc;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #0f172a;
+    --foreground: #f8fafc;
+  }
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Smooth transitions - optimized for performance */
+* {
+  transition: transform 0.2s ease-out, opacity 0.2s ease-out, background-color 0.2s ease-out, border-color 0.2s ease-out;
+}
+
+/* Hardware acceleration for better performance */
+.card-hover,
+.interactive-point,
+input[type="range"]::-webkit-slider-thumb {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Custom slider styles */
+.slider-yellow {
+  background: linear-gradient(to right, #F59E0B20, #F59E0B40);
+  border: 1px solid #F59E0B30;
+}
+
+.slider-yellow::-webkit-slider-thumb {
+  appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #F59E0B, #FBBF24);
+  border: 3px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.6), 0 0 0 1px rgba(245, 158, 11, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider-yellow::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(245, 158, 11, 0.8), 0 0 0 2px rgba(245, 158, 11, 0.3);
+}
+
+.slider-blue {
+  background: linear-gradient(to right, #3B82F620, #3B82F640);
+  border: 1px solid #3B82F630;
+}
+
+.slider-blue::-webkit-slider-thumb {
+  appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3B82F6, #60A5FA);
+  border: 3px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.6), 0 0 0 1px rgba(59, 130, 246, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider-blue::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.8), 0 0 0 2px rgba(59, 130, 246, 0.3);
+}
+
+.slider-red {
+  background: linear-gradient(to right, #EF444420, #EF444440);
+  border: 1px solid #EF444430;
+}
+
+.slider-red::-webkit-slider-thumb {
+  appearance: none;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #EF4444, #F87171);
+  border: 3px solid #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.6), 0 0 0 1px rgba(239, 68, 68, 0.2);
+  transition: all 0.2s ease;
+}
+
+.slider-red::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(239, 68, 68, 0.8), 0 0 0 2px rgba(239, 68, 68, 0.3);
+}
+
+/* Interactive elements */
+.interactive-point {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.interactive-point:hover {
+  transform: scale(1.2);
+  filter: brightness(1.2);
+}
+
+/* Card hover effects - optimized */
+.card-hover {
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px) translateZ(0);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+}
+
+/* Custom slider styles */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+input[type="range"]::-webkit-slider-track {
+  background: #475569;
+  height: 12px;
+  border-radius: 6px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #3B82F6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: #2563EB;
+  transform: scale(1.1);
+}
+
+input[type="range"]::-moz-range-track {
+  background: #475569;
+  height: 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+input[type="range"]::-moz-range-thumb {
+  background: #3B82F6;
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
