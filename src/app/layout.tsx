@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Preisbildung - Interaktive Lernplattform',
+  title: 'Preiselastizität und Kreuzpreiselastizität',
   description: 'Verstehe, wie sich Preisänderungen auf die Nachfrage auswirken - Interaktive Wirtschaftslehre',
 }
 
