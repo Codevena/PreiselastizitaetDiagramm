@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { TrendingUp, ArrowRight, BarChart3, Zap, Target, Sparkles } from 'lucide-react'
+import { TrendingUp, BarChart3, Zap, Target, Sparkles } from 'lucide-react'
 
 export default function HeroSection() {
   return (
@@ -120,18 +120,9 @@ export default function HeroSection() {
           transition={{ duration: 0.8, delay: 0.3 }}
           className="mb-6"
         >
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 mb-4 leading-tight">
-            Preiselastizität
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-500 to-indigo-600 mb-6 leading-tight">
+            Preiselastizität und Kreuzpreiselastizität
           </h1>
-          <div className="text-3xl md:text-4xl lg:text-5xl font-bold text-white/90">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-              Interaktiv
-            </span>
-            {" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
-              Verstehen
-            </span>
-          </div>
         </motion.div>
 
         {/* Subtitle */}
@@ -139,77 +130,10 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.5 }}
-          className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed"
         >
-          Entdecke die Geheimnisse der Marktdynamik durch{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-yellow-400 to-orange-500 font-semibold">
-            interaktive Diagramme
-          </span>
-          {" "}und{" "}
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-500 font-semibold">
-            Live-Simulationen
-          </span>
+          Wie sich Preisänderungen auf die Nachfrage auswirken
         </motion.p>
-
-        {/* Feature Badges */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.7 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
-        >
-          <div className="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full backdrop-blur-sm">
-            <span className="text-blue-300 text-sm font-medium flex items-center gap-2">
-              <BarChart3 className="w-4 h-4" />
-              Live Diagramme
-            </span>
-          </div>
-          <div className="px-4 py-2 bg-purple-500/20 border border-purple-500/30 rounded-full backdrop-blur-sm">
-            <span className="text-purple-300 text-sm font-medium flex items-center gap-2">
-              <Target className="w-4 h-4" />
-              Interaktive Quizzes
-            </span>
-          </div>
-          <div className="px-4 py-2 bg-green-500/20 border border-green-500/30 rounded-full backdrop-blur-sm">
-            <span className="text-green-300 text-sm font-medium flex items-center gap-2">
-              <Zap className="w-4 h-4" />
-              Echtzeit-Feedback
-            </span>
-          </div>
-        </motion.div>
-
-        {/* CTA Button */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.9 }}
-        >
-          <motion.button
-            whileHover={{
-              scale: 1.05,
-              boxShadow: "0 20px 40px rgba(59, 130, 246, 0.3)"
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="group px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-500 hover:to-purple-500 text-white font-bold rounded-2xl shadow-2xl shadow-blue-500/25 transition-all duration-300 flex items-center gap-3 mx-auto"
-            onClick={() => {
-              document.querySelector('#main-content')?.scrollIntoView({
-                behavior: 'smooth'
-              });
-            }}
-          >
-            <span className="text-lg">Jetzt Entdecken</span>
-            <motion.div
-              animate={{ x: [0, 5, 0] }}
-              transition={{
-                duration: 1.5,
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            >
-              <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </motion.div>
-          </motion.button>
-        </motion.div>
       </div>
     </section>
   )
