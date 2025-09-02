@@ -173,26 +173,21 @@ export default function DiagramWithQuiz() {
         transition={{ duration: 0.3, ease: "easeOut" }}
         className="bg-dark-800/50 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8 border border-dark-700"
       >
-        <div className="flex items-center gap-3 mb-6 sm:mb-8">
-          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-blue-600/20 rounded-xl flex items-center justify-center">
-            <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-blue-400" />
-          </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">Preisbildung - Interaktives Lernen</h2>
-        </div>
+
 
         {/* Advanced Interactive Diagram - The one you wanted restored! */}
         <div className="mb-6 sm:mb-8 bg-gradient-to-br from-indigo-900/20 to-purple-900/20 rounded-xl p-4 sm:p-6 border border-indigo-700/30">
           <h3 className="text-xl sm:text-2xl font-semibold text-white mb-4 sm:mb-6 flex items-center gap-2">
             <TrendingUp className="w-5 h-5 sm:w-6 sm:h-6 text-indigo-400" />
-            <span className="hidden sm:inline">Erweiterte Marktanalyse - Interaktive Steuerung</span>
-            <span className="sm:hidden">Erweiterte Marktanalyse</span>
+            <span className="hidden sm:inline">Interaktive Marktanalyse</span>
+            <span className="sm:hidden">Marktanalyse</span>
           </h3>
 
           <div className="grid xl:grid-cols-3 gap-6">
             {/* Advanced Chart */}
             <div className="xl:col-span-2 bg-dark-700/50 rounded-xl p-6 border border-dark-600">
               <div className="flex items-center justify-between mb-4">
-                <h4 className="text-lg font-semibold text-white">Erweiterte Diagramm-Steuerung</h4>
+                <h4 className="text-lg font-semibold text-white">Live-Diagramm</h4>
                 <div className="flex gap-2">
                   <button
                     onClick={() => {
